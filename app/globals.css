@@ -122,4 +122,24 @@
   body {
     @apply bg-background text-foreground;
   }
+  
+  /* Mobile viewport fix - prevent scroll bouncing */
+  html, body {
+    height: 100%;
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  #__next, main {
+    height: 100%;
+    overflow: hidden;
+  }
+  
+  /* Prevent pull-to-refresh on mobile */
+  body {
+    overscroll-behavior-y: contain;
+  }
 }
