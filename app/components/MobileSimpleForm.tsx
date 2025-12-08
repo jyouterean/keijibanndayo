@@ -50,7 +50,7 @@ export function MobileSimpleForm({
   }
 
   return (
-    <div className="bg-white border-t border-gray-200 p-3">
+    <div className="bg-white border-t border-gray-200 p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))]">
       {isBlocked && blockCountdown !== null && (
         <div className="bg-red-50 border border-red-200 rounded-lg p-2 text-red-600 text-xs mb-2">
           連投制限中: あと {blockCountdown} 秒
