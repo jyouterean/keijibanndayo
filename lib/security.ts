@@ -37,7 +37,8 @@ export function unauthorizedResponse(message: string = "Unauthorized") {
 
 /**
  * Rate limiting helper
- * Simple in-memory rate limiting (for production, use Redis or similar)
+ * Note: In serverless environments, this is per-instance only.
+ * For production, use Redis, Upstash, or Vercel KV.
  */
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>()
 
@@ -67,21 +68,28 @@ export function checkRateLimit(
  */
 export function getClientIp(request: NextRequest): string {
     const forwarded = request.headers.get("x-forwarded-for")
-    const ip = forwarded ? forwarded.split(",")[0].trim() : "unknown"
+    const realIp = request.headers.get("x-real-ip")
+    const ip = forwarded ? forwarded.split(",")[0].trim() : realIp || "unknown"
     return ip
 }
 
 /**
- * Sanitize string input
+ * Sanitize string input - removes dangerous characters but keeps content readable
+ * Only removes actual script/HTML tags, not encoding all special characters
  */
 export function sanitizeInput(input: string): string {
     if (typeof input !== "string") return ""
     return input
         .trim()
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#x27;")
+        // Remove script tags and their contents
+        .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")
+        // Remove other potentially dangerous tags
+        .replace(/<(iframe|object|embed|link|style|meta)[^>]*>/gi, "")
+        // Remove javascript: and data: URLs
+        .replace(/javascript:/gi, "")
+        .replace(/data:/gi, "")
+        // Remove event handlers
+        .replace(/on\w+\s*=/gi, "")
 }
 
 /**
