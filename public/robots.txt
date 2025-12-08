@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+
+# クローラーの頻度を指定
+Crawl-delay: 1
+
+# サイトマップの場所を指定
+Sitemap: https://keijiban.example.com/sitemap.xml
+
+# 主要検索エンジン向けの設定
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
