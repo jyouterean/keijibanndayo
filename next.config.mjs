@@ -27,7 +27,7 @@ const nextConfig = {
           },
           {
             key: 'X-Frame-Options',
-            value: 'SAMEORIGIN'
+            value: 'DENY'
           },
           {
             key: 'X-Content-Type-Options',
@@ -35,11 +35,26 @@ const nextConfig = {
           },
           {
             key: 'Referrer-Policy',
-            value: 'origin-when-cross-origin'
+            value: 'strict-origin-when-cross-origin'
           },
           {
             key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=()'
+            value: 'camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()'
+          },
+          {
+            key: 'Content-Security-Policy',
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://vercel.live",
+              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+              "font-src 'self' https://fonts.gstatic.com",
+              "img-src 'self' data: blob: https:",
+              "connect-src 'self' https://vitals.vercel-insights.com https://vercel.live wss://ws-us3.pusher.com",
+              "frame-ancestors 'none'",
+              "base-uri 'self'",
+              "form-action 'self'",
+              "upgrade-insecure-requests"
+            ].join('; ')
           },
         ],
       },
@@ -49,11 +64,15 @@ const nextConfig = {
         headers: [
           {
             key: 'Cache-Control',
-            value: 'no-store, no-cache, must-revalidate, proxy-revalidate'
+            value: 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0'
           },
           {
             key: 'Pragma',
             value: 'no-cache'
+          },
+          {
+            key: 'Expires',
+            value: '0'
           },
         ],
       },
@@ -63,7 +82,11 @@ const nextConfig = {
         headers: [
           {
             key: 'Cache-Control',
-            value: 'no-store'
+            value: 'no-store, no-cache, must-revalidate'
+          },
+          {
+            key: 'X-Robots-Tag',
+            value: 'noindex, nofollow'
           },
         ],
       },
