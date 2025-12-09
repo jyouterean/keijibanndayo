@@ -418,7 +418,7 @@ export function ChatBoard({ nickname, onLogout, account, onAccountUpdate }: Chat
             {activeTab === "project" && (
               <button
                 onClick={() => setShowMobileForm(true)}
-                className="fixed bottom-6 right-6 w-14 h-14 bg-blue-600 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-blue-700 transition-colors z-20"
+                className="fixed bottom-28 right-6 w-14 h-14 bg-blue-600 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-blue-700 transition-colors z-20"
                 aria-label="新規案件を投稿"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
