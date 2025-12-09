@@ -159,11 +159,17 @@ export default function AuthModal({ isOpen, onClose, onComplete }: AuthModalProp
 
     // Save to database via API
     try {
-      await fetch("/api/accounts", {
+      const response = await fetch("/api/accounts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ account }),
       })
+      const result = await response.json()
+      if (!response.ok) {
+        console.error("Failed to save account to database:", result.error)
+      } else {
+        console.log("Account saved to database successfully")
+      }
     } catch (error) {
       console.error("Error saving account to database:", error)
     }
