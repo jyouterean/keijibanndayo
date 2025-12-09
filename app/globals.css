@@ -144,11 +144,4 @@
     height: 100dvh;
     overflow: hidden;
   }
-
-  /* Safe area for notch devices */
-  @supports (padding-bottom: env(safe-area-inset-bottom)) {
-    body {
-      padding-bottom: env(safe-area-inset-bottom);
-    }
-  }
 }
