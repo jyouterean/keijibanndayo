@@ -39,6 +39,9 @@ export async function createAccount(
   const sql = getDb()
 
   try {
+    console.log("[createAccount] Starting account creation for:", account.nickname)
+    console.log("[createAccount] Account type:", account.type)
+
     const phoneNumber = "phoneNumber" in account ? account.phoneNumber : null
     const email = "email" in account ? account.email : null
     const companyName = account.type === "company" && "companyName" in account ? account.companyName : null
@@ -49,14 +52,29 @@ export async function createAccount(
     const vehicleType = account.type === "driver" && "vehicleType" in account ? (account as any).vehicleType : null
     const isAdmin = account.type === "admin"
 
+    console.log("[createAccount] Inserting with values:", {
+      nickname: account.nickname,
+      phone: phoneNumber,
+      email,
+      account_type: account.type,
+      company_name: companyName,
+      representative_name: representativeName,
+      driver_count: driverCount,
+      name,
+      age,
+      vehicle_type: vehicleType,
+      is_admin: isAdmin
+    })
+
     await sql`
       INSERT INTO accounts (nickname, phone, email, account_type, company_name, representative_name, driver_count, name, age, vehicle_type, is_admin, verified)
       VALUES (${account.nickname}, ${phoneNumber}, ${email}, ${account.type}, ${companyName}, ${representativeName}, ${driverCount}, ${name}, ${age}, ${vehicleType}, ${isAdmin}, true)
     `
 
+    console.log("[createAccount] Account created successfully")
     return { ...account, verified: true }
   } catch (error) {
-    console.error("[Neon] Error creating account:", error)
+    console.error("[createAccount] Error creating account:", error)
     return null
   }
 }
