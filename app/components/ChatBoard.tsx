@@ -398,7 +398,7 @@ export function ChatBoard({ nickname, onLogout, account, onAccountUpdate }: Chat
               </button>
             )}
             {activeTab === "chat" && (
-              <div className="flex-shrink-0 bg-white border-t border-gray-200 pb-[env(safe-area-inset-bottom,60px)]">
+              <div className="flex-shrink-0 bg-white border-t border-gray-200 pb-24">
                 {isAdminUser ? (
                   <div className="p-3">
                     <AdminForm nickname={nickname} onSubmit={handleAddMessage} type="chat" />
