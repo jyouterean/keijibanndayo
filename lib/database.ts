@@ -42,12 +42,16 @@ export async function createAccount(
     const phoneNumber = "phoneNumber" in account ? account.phoneNumber : null
     const email = "email" in account ? account.email : null
     const companyName = account.type === "company" && "companyName" in account ? account.companyName : null
+    const representativeName = account.type === "company" && "representativeName" in account ? (account as any).representativeName : null
+    const driverCount = account.type === "company" && "driverCount" in account ? (account as any).driverCount : null
+    const name = account.type === "driver" && "name" in account ? (account as any).name : null
+    const age = account.type === "driver" && "age" in account ? (account as any).age : null
     const vehicleType = account.type === "driver" && "vehicleType" in account ? (account as any).vehicleType : null
     const isAdmin = account.type === "admin"
 
     await sql`
-      INSERT INTO accounts (nickname, phone, email, account_type, company_name, vehicle_type, is_admin, verified)
-      VALUES (${account.nickname}, ${phoneNumber}, ${email}, ${account.type}, ${companyName}, ${vehicleType}, ${isAdmin}, true)
+      INSERT INTO accounts (nickname, phone, email, account_type, company_name, representative_name, driver_count, name, age, vehicle_type, is_admin, verified)
+      VALUES (${account.nickname}, ${phoneNumber}, ${email}, ${account.type}, ${companyName}, ${representativeName}, ${driverCount}, ${name}, ${age}, ${vehicleType}, ${isAdmin}, true)
     `
 
     return { ...account, verified: true }

@@ -129,7 +129,7 @@ export default function AuthModal({ isOpen, onClose, onComplete }: AuthModalProp
     }
   }
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!accountType || !validateRegisterForm()) return
 
@@ -157,7 +157,18 @@ export default function AuthModal({ isOpen, onClose, onComplete }: AuthModalProp
       } as DriverAccount
     }
 
-    // アカウントリストに保存
+    // Save to database via API
+    try {
+      await fetch("/api/accounts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ account }),
+      })
+    } catch (error) {
+      console.error("Error saving account to database:", error)
+    }
+
+    // アカウントリストに保存 (localStorage backup)
     const storedAccountsStr = localStorage.getItem("keijiban_all_accounts")
     const storedAccounts: UserAccount[] = storedAccountsStr ? JSON.parse(storedAccountsStr) : []
     const existingIndex = storedAccounts.findIndex((acc) => acc.phoneNumber === account.phoneNumber)
